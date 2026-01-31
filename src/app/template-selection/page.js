@@ -24,14 +24,6 @@ export default function TemplateSelection() {
       action: () => setActiveModal('faculty')
     },
     {
-      id: 'siwes',
-      title: 'SIWES Report',
-      description: 'Industrial training documentation',
-      icon: '🏭',
-      color: 'green',
-      action: () => handleProceed('siwes')
-    },
-    {
       id: 'thesis',
       title: 'Thesis (6 Chapters)',
       description: 'Postgraduate research thesis',
@@ -58,8 +50,6 @@ export default function TemplateSelection() {
     // Set loading text based on template type
     if (templateType === '5-chapter') {
       setLoadingText(`Setting up ${additionalData.faculty?.name} template...`);
-    } else if (templateType === 'siwes') {
-      setLoadingText('Preparing SIWES template...');
     } else if (templateType === 'thesis') {
       setLoadingText(`Configuring ${additionalData.department?.name} thesis...`);
     } else if (templateType === 'custom') {
