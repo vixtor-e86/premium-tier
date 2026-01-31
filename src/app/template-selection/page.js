@@ -91,8 +91,10 @@ export default function TemplateSelection() {
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ type: 'spring', delay: 0.2 }}
-            className="logo-orb"
-          />
+            className="premium-badge"
+          >
+            PREMIUM
+          </motion.div>
           <h1>Choose Your Template</h1>
           <p>Select the structure that matches your academic project</p>
         </div>

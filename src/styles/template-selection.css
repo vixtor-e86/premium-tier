@@ -34,14 +34,22 @@
   position: relative;
 }
 
-.logo-orb {
-  width: 80px;
-  height: 80px;
+.premium-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  padding: 12px 30px;
   margin: 0 auto 24px;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 50%;
+  border-radius: 50px;
   box-shadow: 0 20px 60px rgba(102, 126, 234, 0.4);
   animation: float 3s ease-in-out infinite;
+  color: white;
+  font-weight: 800;
+  letter-spacing: 2px;
+  font-size: 16px;
+  text-transform: uppercase;
 }
 
 @keyframes float {
