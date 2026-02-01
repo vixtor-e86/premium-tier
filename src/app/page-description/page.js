@@ -98,14 +98,14 @@ export default function ProjectDescription() {
         className="description-container"
       >
         <div className="header-section">
-          <motion.div
+          <motion.img
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ type: 'spring', delay: 0.2 }}
+            src="/favicon.ico"
+            alt="Logo"
             className="icon-badge"
-          >
-            📝
-          </motion.div>
+          />
           <h1>Project Details</h1>
           <p>Tell us about your academic project</p>
         </div>
@@ -227,8 +227,10 @@ export default function ProjectDescription() {
             className="info-card"
           >
             <div className="info-icon">💡</div>
-            <h3>Pro Tip</h3>
-            <p>Keep your description concise and focused on your main research objectives</p>
+            <div>
+              <h3>Pro Tip</h3>
+              <p>Keep your description concise and focused on your main research objectives</p>
+            </div>
           </motion.div>
           <motion.div
             initial={{ opacity: 0, x: 20 }}
@@ -237,8 +239,10 @@ export default function ProjectDescription() {
             className="info-card"
           >
             <div className="info-icon">✏️</div>
-            <h3>Note</h3>
-            <p>You can write your full abstract later in the workspace editor</p>
+            <div>
+              <h3>Note</h3>
+              <p>You can write your full abstract later in the workspace editor</p>
+            </div>
           </motion.div>
         </div>
       </motion.div>

@@ -89,9 +89,10 @@ export default function TemplateSelection() {
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ type: 'spring', delay: 0.2 }}
-            className="premium-badge"
+            className="logo-container"
           >
-            PREMIUM
+            <img src="/favicon.ico" alt="W3 Writelab" className="logo-icon" />
+            <span className="premium-tag">PREMIUM</span>
           </motion.div>
           <h1>Choose Your Template</h1>
           <p>Select the structure that matches your academic project</p>

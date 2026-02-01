@@ -9,8 +9,9 @@ import ContentArea from '@/components/workspace/ContentArea';
 import '@/styles/workspace.css';
 
 export default function Workspace() {
-  const [activeView, setActiveView] = useState('chapter-1'); // 'template', 'chapter-1', 'chapter-2', etc.
-  const [isRightSidebarOpen, setIsRightSidebarOpen] = useState(true);
+  const [activeView, setActiveView] = useState('dashboard'); // 'dashboard', 'edit-template', 'chapter-1', etc.
+  const [isRightSidebarOpen, setIsRightSidebarOpen] = useState(true); // Open by default
+  const [isLeftSidebarOpen, setIsLeftSidebarOpen] = useState(false);
   const [chapters, setChapters] = useState([
     { id: 1, title: 'Chapter 1', content: '' },
     { id: 2, title: 'Chapter 2', content: '' },
@@ -74,18 +75,21 @@ export default function Workspace() {
         chapters={chapters}
         images={images}
         activeView={activeView}
-        onViewChange={setActiveView}
+        onViewChange={(view) => {
+          setActiveView(view);
+          setIsLeftSidebarOpen(false); // Close sidebar on mobile when nav item clicked
+        }}
         onAddImage={handleAddImage}
         onRemoveImage={handleRemoveImage}
+        isOpen={isLeftSidebarOpen}
+        onClose={() => setIsLeftSidebarOpen(false)}
       />
 
       <div className="main-workspace">
         <TopToolbar
-          onGenerate={handleGenerate}
-          onRegenerate={handleRegenerate}
-          onEdit={handleEdit}
           onToggleRightSidebar={() => setIsRightSidebarOpen(!isRightSidebarOpen)}
           isRightSidebarOpen={isRightSidebarOpen}
+          onToggleLeftSidebar={() => setIsLeftSidebarOpen(!isLeftSidebarOpen)}
         />
 
         <div className="workspace-content">
