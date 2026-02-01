@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import FacultyModal from '@/components/modals/FacultyModal';
 import DepartmentModal from '@/components/modals/DepartmentModal';
@@ -10,6 +11,7 @@ import TemplateCard from '@/components/TemplateCard';
 import '@/styles/template-selection.css';
 
 export default function TemplateSelection() {
+  const router = useRouter();
   const [activeModal, setActiveModal] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [loadingText, setLoadingText] = useState('Processing...');
@@ -41,31 +43,37 @@ export default function TemplateSelection() {
     },
   ];
 
-  const handleProceed = (templateType, additionalData = {}) => {
+  const handleProceed = async (templateType, additionalData = {}) => {
     console.log('Proceeding with:', templateType, additionalData);
     
     // Close any open modal
     setActiveModal(null);
+    setIsLoading(true);
+
+    // Helper for delay
+    const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
     
-    // Set loading text based on template type
+    // Step 1: Initialization
     if (templateType === '5-chapter') {
-      setLoadingText(`Setting up ${additionalData.faculty?.name} template...`);
+      setLoadingText(`Initializing ${additionalData.faculty?.name} template...`);
     } else if (templateType === 'thesis') {
       setLoadingText(`Configuring ${additionalData.department?.name} thesis...`);
     } else if (templateType === 'custom') {
-      setLoadingText('Building your custom template...');
+      setLoadingText('Initializing custom builder...');
     }
+
+    await wait(1500);
+
+    // Step 2: Compiling
+    setLoadingText('Compiling document structure...');
+    await wait(1500);
+
+    // Step 3: Optimization
+    setLoadingText('Optimizing project assets...');
+    await wait(1000);
     
-    // Show loading modal
-    setIsLoading(true);
-    
-    // Simulate loading for 3 seconds then navigate
-    setTimeout(() => {
-      setIsLoading(false);
-      // TODO: Navigate to project description page
-      // router.push('/project-description');
-      console.log('Navigate to project description');
-    }, 3000);
+    // Navigate without closing modal (smoother transition)
+    router.push('/page-description');
   };
 
   return (
