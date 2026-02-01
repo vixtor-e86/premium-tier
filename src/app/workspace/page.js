@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Sidebar from '@/components/workspace/Sidebar';
 import TopToolbar from '@/components/workspace/TopToolbar';
@@ -9,8 +9,8 @@ import ContentArea from '@/components/workspace/ContentArea';
 import '@/styles/workspace.css';
 
 export default function Workspace() {
-  const [activeView, setActiveView] = useState('dashboard'); // 'dashboard', 'edit-template', 'chapter-1', etc.
-  const [isRightSidebarOpen, setIsRightSidebarOpen] = useState(true); // Open by default
+  const [activeView, setActiveView] = useState('dashboard');
+  const [isRightSidebarOpen, setIsRightSidebarOpen] = useState(false);
   const [isLeftSidebarOpen, setIsLeftSidebarOpen] = useState(false);
   const [chapters, setChapters] = useState([
     { id: 1, title: 'Chapter 1', content: '' },
@@ -20,6 +20,13 @@ export default function Workspace() {
     { id: 5, title: 'Chapter 5', content: '' },
   ]);
   const [images, setImages] = useState([]);
+
+  // Open tools panel by default only on desktop
+  useEffect(() => {
+    if (window.innerWidth >= 1024) {
+      setIsRightSidebarOpen(true);
+    }
+  }, []);
   
   // Mock project data (replace with real data from previous pages)
   const projectData = {
