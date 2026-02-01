@@ -630,4 +630,83 @@
   .templates-grid {
     grid-template-columns: 1fr;
   }
+
+  /* Modal Responsive */
+  .modal-container {
+    width: 95% !important;
+    padding: 24px !important;
+    max-height: 90vh;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) !important;
+  }
+
+  .modal-header h2 {
+    font-size: 22px;
+  }
+
+  /* Custom Options Stack */
+  .custom-options {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .custom-option-card {
+    padding: 24px;
+  }
+
+  /* File Upload Responsive */
+  .dropzone {
+    padding: 32px 20px;
+  }
+
+  .upload-icon {
+    font-size: 36px;
+  }
+
+  .upload-text {
+    font-size: 15px;
+  }
+
+  /* Manual Builder Responsive */
+  .chapters-container {
+    max-height: 50vh;
+  }
+
+  .chapter-header {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .remove-chapter {
+    width: 100%;
+    height: 36px;
+    margin-top: 4px;
+  }
+
+  .section-item {
+    gap: 8px;
+  }
+
+  .section-number {
+    font-size: 12px;
+    width: 24px;
+  }
+
+  .section-input, 
+  .chapter-input {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .modal-actions {
+    flex-direction: column-reverse;
+    gap: 12px;
+  }
+
+  .btn-secondary, 
+  .btn-primary {
+    width: 100%;
+    padding: 12px;
+  }
 }
