@@ -606,9 +606,10 @@
 /* Loading Modal */
 .loading-modal {
   position: fixed !important;
-  top: 50% !important;
-  left: 50% !important;
-  transform: translate(-50%, -50%) !important;
+  inset: 0 !important;
+  margin: auto !important;
+  width: fit-content !important;
+  height: fit-content !important;
   background: rgba(255, 255, 255, 0.98) !important;
   border: 1px solid var(--color-border);
   z-index: 60 !important;
@@ -618,19 +619,54 @@
   box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
 }
 
-.modal-backdrop {
-  position: fixed;
-  inset: 0;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(4px);
-  z-index: 55 !important;
-  overflow: hidden;
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+  margin-bottom: 24px;
+}
+
+.spinner-ring {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border: 3px solid transparent;
+  border-top-color: #111827;
+  border-radius: 50%;
+  animation: spin 1.2s linear infinite;
+}
+
+.spinner-ring:nth-child(2) {
+  width: 45px;
+  height: 45px;
+  border-top-color: #6b7280;
+  animation-delay: -0.4s;
+}
+
+.spinner-ring:nth-child(3) {
+  width: 30px;
+  height: 30px;
+  border-top-color: #d1d5db;
+  animation-delay: -0.8s;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--color-primary) !important;
+  margin: 0 0 8px 0;
+}
+
+.loading-subtext {
+  font-size: 14px;
+  color: var(--color-secondary) !important;
+  margin: 0;
 }
 
 /* Responsive Design */
@@ -647,82 +683,39 @@
     grid-template-columns: 1fr;
   }
 
-  /* Modal Responsive */
-  .modal-container {
-    width: 95% !important;
-    padding: 24px !important;
-    max-height: 90vh;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) !important;
+  /* Loading Modal Mobile */
+  .loading-modal {
+    width: 90% !important;
+    padding: 40px 24px !important;
+    border-radius: 16px;
   }
 
-  .modal-header h2 {
-    font-size: 22px;
+  .loading-spinner {
+    height: 60px;
+    margin-bottom: 20px;
   }
 
-  /* Custom Options Stack */
-  .custom-options {
-    grid-template-columns: 1fr;
-    gap: 16px;
+  .spinner-ring {
+    width: 50px;
+    height: 50px;
+    border-width: 2px;
   }
 
-  .custom-option-card {
-    padding: 24px;
+  .spinner-ring:nth-child(2) {
+    width: 35px;
+    height: 35px;
   }
 
-  /* File Upload Responsive */
-  .dropzone {
-    padding: 32px 20px;
+  .spinner-ring:nth-child(3) {
+    width: 20px;
+    height: 20px;
   }
 
-  .upload-icon {
-    font-size: 36px;
+  .loading-text {
+    font-size: 16px;
   }
 
-  .upload-text {
-    font-size: 15px;
-  }
-
-  /* Manual Builder Responsive */
-  .chapters-container {
-    max-height: 50vh;
-  }
-
-  .chapter-header {
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .remove-chapter {
-    width: 100%;
-    height: 36px;
-    margin-top: 4px;
-  }
-
-  .section-item {
-    gap: 8px;
-  }
-
-  .section-number {
+  .loading-subtext {
     font-size: 12px;
-    width: 24px;
-  }
-
-  .section-input, 
-  .chapter-input {
-    font-size: 14px;
-    padding: 10px;
-  }
-
-  .modal-actions {
-    flex-direction: column-reverse;
-    gap: 12px;
-  }
-
-  .btn-secondary, 
-  .btn-primary {
-    width: 100%;
-    padding: 12px;
   }
 }
