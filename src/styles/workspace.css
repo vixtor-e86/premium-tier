@@ -755,17 +755,13 @@
 /* Tablet & Mobile */
 @media (max-width: 1024px) {
   .right-sidebar {
-    position: absolute;
+    position: fixed;
     right: 0;
     top: 0;
     bottom: 0;
     z-index: 50;
-    transform: translateX(100%);
+    width: 280px;
     box-shadow: -4px 0 20px rgba(0,0,0,0.1);
-  }
-  
-  .right-sidebar.open {
-    transform: translateX(0);
   }
 }
 
@@ -786,12 +782,22 @@
   }
 
   .sidebar-backdrop {
-    display: block;
+    display: block !important;
     position: fixed;
     inset: 0;
     background: rgba(0,0,0,0.4);
     backdrop-filter: blur(4px);
     z-index: 40;
+  }
+
+  .right-sidebar {
+    position: fixed;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 50;
+    width: 280px;
+    box-shadow: -4px 0 20px rgba(0,0,0,0.1);
   }
 
   .mobile-menu-btn {
@@ -808,16 +814,60 @@
   }
 
   .top-toolbar {
-    padding: 0 16px;
-    height: 64px;
+    padding: 0 12px;
+    height: auto;
+    min-height: 60px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: nowrap;
+  }
+
+  .toolbar-left {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
   }
 
   .toolbar-left h1 {
-    font-size: 16px;
+    font-size: 13px;
+    line-height: 1.2;
+    word-break: break-word;
+    max-width: 100%;
   }
 
   .toolbar-left p {
     display: none; /* Hide subtitle on mobile to save space */
+  }
+
+  .toolbar-actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .btn-black {
+    display: flex;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .btn-black span {
+    display: none;
+  }
+
+  .btn-icon-only {
+    width: 32px;
+    height: 32px;
+  }
+
+  .mobile-menu-btn {
+    display: block !important;
   }
 
   .content-area {

@@ -113,7 +113,26 @@ export default function Workspace() {
 
           <AnimatePresence>
             {isRightSidebarOpen && (
-              <RightSidebar onClose={() => setIsRightSidebarOpen(false)} />
+              <>
+                <motion.div 
+                  className="sidebar-backdrop"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  onClick={() => setIsRightSidebarOpen(false)}
+                  style={{
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                    zIndex: 40,
+                    display: 'none'
+                  }}
+                />
+                <RightSidebar onClose={() => setIsRightSidebarOpen(false)} />
+              </>
             )}
           </AnimatePresence>
         </div>
