@@ -1,5 +1,7 @@
 'use client';
 
+import { useState } from 'react';
+
 // Simple SVG Icons
 const Icons = {
   Edit3: () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>,
@@ -11,7 +13,9 @@ const Icons = {
   Send: () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>,
   Paperclip: () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path></svg>,
   Mic: () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>,
-  Shield: () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+  Shield: () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>,
+  Check: () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>,
+  X: () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
 };
 
 export default function ContentArea({ 
@@ -20,25 +24,68 @@ export default function ContentArea({
   chapters, 
   onUpdateChapter 
 }) {
+  const [editingChapterId, setEditingChapterId] = useState(null);
+
   // Determine if we are viewing a specific chapter
   const activeChapter = activeView.startsWith('chapter-') 
     ? chapters.find(ch => `chapter-${ch.id}` === activeView)
     : null;
 
   if (activeChapter) {
+    const isEditing = editingChapterId === activeChapter.id;
+
     return (
-      <div className="content-area">
-        <div className="content-header">
-          <h1>{activeChapter.title}</h1>
-          <p>Drafting content for {projectData.title}</p>
+      <div className="content-area" style={{ overflowY: 'auto' }}>
+        {/* Header */}
+        <div style={{ marginBottom: '40px', width: '100%' }}>
+          <h1 style={{ fontSize: '32px', fontWeight: '700', color: '#111827', margin: '0 0 8px 0', letterSpacing: '-0.5px' }}>
+            {activeChapter.title}
+          </h1>
+          <p style={{ fontSize: '16px', color: '#6b7280', margin: 0 }}>
+            Generated content for {projectData.title}
+          </p>
         </div>
-        <div className="editor-container">
-          <textarea
-            className="chapter-editor"
-            value={activeChapter.content}
-            onChange={(e) => onUpdateChapter(activeChapter.id, e.target.value)}
-            placeholder={`Start writing ${activeChapter.title}...`}
-          />
+
+        {/* Content Display/Editor */}
+        <div style={{ background: 'white', borderRadius: '16px', border: '1px solid #e5e7eb', overflow: 'hidden', width: '100%' }}>
+          {/* Content Area */}
+          {isEditing ? (
+            <textarea
+              className="chapter-editor"
+              value={activeChapter.content}
+              onChange={(e) => onUpdateChapter(activeChapter.id, e.target.value)}
+              placeholder={`Start writing ${activeChapter.title}...`}
+              style={{
+                width: '100%',
+                minHeight: '500px',
+                border: 'none',
+                outline: 'none',
+                fontSize: '16px',
+                lineHeight: '1.8',
+                color: '#111827',
+                padding: '24px',
+                fontFamily: 'inherit',
+                boxSizing: 'border-box',
+                resize: 'vertical'
+              }}
+            />
+          ) : (
+            <div style={{
+              padding: '24px',
+              fontSize: '16px',
+              lineHeight: '1.8',
+              color: '#111827',
+              minHeight: '500px',
+              whiteSpace: 'pre-wrap',
+              wordWrap: 'break-word'
+            }}>
+              {activeChapter.content || (
+                <span style={{ color: '#9ca3af', fontStyle: 'italic' }}>
+                  No content yet. Click the edit button to start writing.
+                </span>
+              )}
+            </div>
+          )}
         </div>
       </div>
     );
@@ -90,6 +137,86 @@ export default function ContentArea({
             cursor: 'pointer',
             marginTop: '16px'
           }}>Save Changes</button>
+        </div>
+      </div>
+    );
+  }
+
+  // History View
+  if (activeView === 'history') {
+    const historyData = [
+      { id: 1, chapter: 'Introduction to AI', tool: 'Full Generation', date: '2023-10-25 14:30', tokens: 15000, status: 'Completed' },
+      { id: 2, chapter: 'Machine Learning Basics', tool: 'Content Edit', date: '2023-10-24 09:15', tokens: 500, status: 'Completed' },
+      { id: 3, chapter: 'Data Processing', tool: 'Literature Search', date: '2023-10-23 16:45', tokens: 1200, status: 'Completed' },
+      { id: 4, chapter: 'Model Training', tool: 'Grammar Check', date: '2023-10-22 11:20', tokens: 300, status: 'Completed' },
+      { id: 5, chapter: 'Evaluation Metrics', tool: 'Citation Manager', date: '2023-10-20 10:00', tokens: 5000, status: 'Completed' },
+    ];
+
+    return (
+      <div className="content-area" style={{ overflowY: 'auto' }}>
+        <div style={{ marginBottom: '40px', width: '100%' }}>
+          <h1 style={{ fontSize: '32px', fontWeight: '700', color: '#111827', margin: '0 0 8px 0', letterSpacing: '-0.5px' }}>Project History</h1>
+          <p style={{ fontSize: '16px', color: '#6b7280', margin: 0 }}>Track your chapter generation and token usage.</p>
+        </div>
+
+        {/* Usage Overview - Horizontal Cards */}
+        <div style={{ display: 'flex', gap: '20px', marginBottom: '40px', overflowX: 'auto', paddingBottom: '12px' }}>
+          <div style={{ background: 'white', padding: '24px', borderRadius: '16px', border: '1px solid #e5e7eb', boxShadow: '0 1px 2px rgba(0,0,0,0.05)', minWidth: '220px', flex: '0 0 auto' }}>
+            <span style={{ fontSize: '14px', color: '#6b7280', display: 'block', marginBottom: '8px' }}>Total Chapters Generated</span>
+            <span style={{ fontSize: '32px', fontWeight: '700', color: '#111827' }}>24</span>
+          </div>
+          <div style={{ background: 'white', padding: '24px', borderRadius: '16px', border: '1px solid #e5e7eb', boxShadow: '0 1px 2px rgba(0,0,0,0.05)', minWidth: '220px', flex: '0 0 auto' }}>
+            <span style={{ fontSize: '14px', color: '#6b7280', display: 'block', marginBottom: '8px' }}>Images Added</span>
+            <span style={{ fontSize: '32px', fontWeight: '700', color: '#111827' }}>18</span>
+          </div>
+          <div style={{ background: 'white', padding: '24px', borderRadius: '16px', border: '1px solid #e5e7eb', boxShadow: '0 1px 2px rgba(0,0,0,0.05)', minWidth: '220px', flex: '0 0 auto' }}>
+            <span style={{ fontSize: '14px', color: '#6b7280', display: 'block', marginBottom: '8px' }}>Tokens Spent</span>
+            <span style={{ fontSize: '32px', fontWeight: '700', color: '#111827' }}>22,000</span>
+          </div>
+          <div style={{ background: 'white', padding: '24px', borderRadius: '16px', border: '1px solid #e5e7eb', boxShadow: '0 1px 2px rgba(0,0,0,0.05)', minWidth: '220px', flex: '0 0 auto' }}>
+            <span style={{ fontSize: '14px', color: '#6b7280', display: 'block', marginBottom: '8px' }}>Tokens Remaining</span>
+            <span style={{ fontSize: '32px', fontWeight: '700', color: '#111827' }}>478k</span>
+          </div>
+        </div>
+
+        {/* Activity Log */}
+        <div style={{ background: 'white', borderRadius: '16px', border: '1px solid #e5e7eb', overflow: 'hidden', width: '100%' }}>
+          <div style={{ padding: '20px 24px', borderBottom: '1px solid #e5e7eb' }}>
+            <h3 style={{ margin: 0, fontSize: '16px', fontWeight: '600' }}>Recent Chapter Activities</h3>
+          </div>
+          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '14px' }}>
+            <thead>
+              <tr style={{ background: '#f9fafb', textAlign: 'left' }}>
+                <th style={{ padding: '16px 24px', color: '#6b7280', fontWeight: '600' }}>Chapter</th>
+                <th style={{ padding: '16px 24px', color: '#6b7280', fontWeight: '600' }}>Last Action</th>
+                <th style={{ padding: '16px 24px', color: '#6b7280', fontWeight: '600' }}>Date</th>
+                <th style={{ padding: '16px 24px', color: '#6b7280', fontWeight: '600' }}>Tokens Used</th>
+                <th style={{ padding: '16px 24px', color: '#6b7280', fontWeight: '600' }}>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {historyData.map((item, index) => (
+                <tr key={item.id} style={{ borderBottom: index < historyData.length - 1 ? '1px solid #e5e7eb' : 'none' }}>
+                  <td style={{ padding: '16px 24px', fontWeight: '500', color: '#111827' }}>{item.chapter}</td>
+                  <td style={{ padding: '16px 24px', color: '#4b5563' }}>{item.tool}</td>
+                  <td style={{ padding: '16px 24px', color: '#6b7280' }}>{item.date}</td>
+                  <td style={{ padding: '16px 24px', color: '#6b7280' }}>{item.tokens.toLocaleString()}</td>
+                  <td style={{ padding: '16px 24px' }}>
+                    <span style={{ 
+                      background: '#def7ec', 
+                      color: '#03543f', 
+                      padding: '4px 10px', 
+                      borderRadius: '100px', 
+                      fontSize: '12px', 
+                      fontWeight: '600' 
+                    }}>
+                      {item.status}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     );

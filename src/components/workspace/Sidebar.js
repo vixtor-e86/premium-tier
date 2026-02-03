@@ -126,7 +126,10 @@ export default function Sidebar({
           <span>Templates</span>
         </button>
 
-        <button className="nav-item-new">
+        <button 
+          className={`nav-item-new ${activeView === 'history' ? 'active' : ''}`}
+          onClick={() => onViewChange('history')}
+        >
           <Icons.Clock />
           <span>History</span>
         </button>

@@ -1,5 +1,8 @@
 'use client';
 
+import { useState } from 'react';
+import GenerationModal from '../modals/GenerationModal';
+
 // Simple SVG Icons
 const Icons = {
   Menu: () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>,
@@ -15,47 +18,73 @@ const Icons = {
     isRightSidebarOpen,
     onToggleLeftSidebar
   }) {
+    const [isGenerationModalOpen, setIsGenerationModalOpen] = useState(false);
+
+    // Sample data - in a real app, these would come from props or context
+    const uploadedImages = [
+      { id: 1, name: 'chart-1.png', src: '/api/placeholder?w=120&h=120' },
+      { id: 2, name: 'graph-2.jpg', src: '/api/placeholder?w=120&h=120' },
+      { id: 3, name: 'diagram-3.png', src: '/api/placeholder?w=120&h=120' },
+    ];
+
+    const researchPapers = [
+      { id: 1, title: 'Deep Learning in Medical Imaging', author: 'Smith et al.', year: '2023', journal: 'Nature Medicine' },
+      { id: 2, title: 'AI Ethics and Healthcare', author: 'Johnson et al.', year: '2023', journal: 'The Lancet' },
+      { id: 3, title: 'Clinical Decision Support Systems', author: 'Williams et al.', year: '2022', journal: 'JAMA' },
+    ];
     return (
-      <div className="top-toolbar">
-        <button className="mobile-menu-btn" onClick={onToggleLeftSidebar}>
-          <Icons.Menu />
-        </button>
-        
-        <div className="toolbar-left">
-          <h1>Academic Research Workspace</h1>
-          <p>Draft, analyze, and refine your project with AI assistance.</p>
+      <>
+        <div className="top-toolbar">
+          <button className="mobile-menu-btn" onClick={onToggleLeftSidebar}>
+            <Icons.Menu />
+          </button>
+          
+          <div className="toolbar-left">
+            <h1>Academic Research Workspace</h1>
+            <p>Draft, analyze, and refine your project with AI assistance.</p>
+          </div>
+    
+          <div className="toolbar-actions">
+            <button 
+              className="btn-black"
+              onClick={() => setIsGenerationModalOpen(true)}
+            >
+              <Icons.Zap />
+              <span>Generate</span>
+            </button>
+            
+            <button className="btn-icon-only" title="Edit Mode">
+              <Icons.Edit />
+            </button>
+            
+            <button className="btn-icon-only" title="Print">
+              <Icons.Printer />
+            </button>
+            
+            <button className="btn-icon-only" title="Export Project">
+              <Icons.Download />
+            </button>
+    
+            <button 
+              className="btn-icon-only"
+              onClick={onToggleRightSidebar}
+              title="Toggle Tools Panel"
+              style={{ 
+                backgroundColor: isRightSidebarOpen ? '#f3f4f6' : 'white',
+                borderColor: isRightSidebarOpen ? '#d1d5db' : '#e5e7eb'
+              }}
+            >
+              <Icons.Sidebar />
+            </button>
+          </div>
         </div>
-  
-        <div className="toolbar-actions">
-          <button className="btn-black">
-            <Icons.Zap />
-            <span>Generate</span>
-          </button>
-          
-          <button className="btn-icon-only" title="Edit Mode">
-            <Icons.Edit />
-          </button>
-          
-          <button className="btn-icon-only" title="Print">
-            <Icons.Printer />
-          </button>
-          
-          <button className="btn-icon-only" title="Export Project">
-            <Icons.Download />
-          </button>
-  
-          <button 
-            className="btn-icon-only"
-            onClick={onToggleRightSidebar}
-            title="Toggle Tools Panel"
-            style={{ 
-              backgroundColor: isRightSidebarOpen ? '#f3f4f6' : 'white',
-              borderColor: isRightSidebarOpen ? '#d1d5db' : '#e5e7eb'
-            }}
-          >
-            <Icons.Sidebar />
-          </button>
-        </div>
-      </div>
+
+        <GenerationModal 
+          isOpen={isGenerationModalOpen}
+          onClose={() => setIsGenerationModalOpen(false)}
+          uploadedImages={uploadedImages}
+          researchPapers={researchPapers}
+        />
+      </>
     );
   }
