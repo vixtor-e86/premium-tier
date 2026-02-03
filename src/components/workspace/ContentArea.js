@@ -37,57 +37,59 @@ export default function ContentArea({
     const isEditing = editingChapterId === activeChapter.id;
 
     return (
-      <div className="content-area" style={{ overflowY: 'auto' }}>
-        {/* Header */}
-        <div style={{ marginBottom: '40px', width: '100%' }}>
-          <h1 style={{ fontSize: '32px', fontWeight: '700', color: '#111827', margin: '0 0 8px 0', letterSpacing: '-0.5px' }}>
-            {activeChapter.title}
-          </h1>
-          <p style={{ fontSize: '16px', color: '#6b7280', margin: 0 }}>
-            Generated content for {projectData.title}
-          </p>
-        </div>
+      <div className="content-area">
+        <div className="content-layout-wrapper">
+          {/* Header */}
+          <div style={{ marginBottom: '40px', width: '100%' }}>
+            <h1 style={{ fontSize: '32px', fontWeight: '700', color: '#111827', margin: '0 0 8px 0', letterSpacing: '-0.5px' }}>
+              {activeChapter.title}
+            </h1>
+            <p style={{ fontSize: '16px', color: '#6b7280', margin: 0 }}>
+              Generated content for {projectData.title}
+            </p>
+          </div>
 
-        {/* Content Display/Editor */}
-        <div style={{ background: 'white', borderRadius: '16px', border: '1px solid #e5e7eb', overflow: 'hidden', width: '100%' }}>
-          {/* Content Area */}
-          {isEditing ? (
-            <textarea
-              className="chapter-editor"
-              value={activeChapter.content}
-              onChange={(e) => onUpdateChapter(activeChapter.id, e.target.value)}
-              placeholder={`Start writing ${activeChapter.title}...`}
-              style={{
-                width: '100%',
-                minHeight: '500px',
-                border: 'none',
-                outline: 'none',
+          {/* Content Display/Editor */}
+          <div style={{ background: 'white', borderRadius: '16px', border: '1px solid #e5e7eb', overflow: 'hidden', width: '100%' }}>
+            {/* Content Area */}
+            {isEditing ? (
+              <textarea
+                className="chapter-editor"
+                value={activeChapter.content}
+                onChange={(e) => onUpdateChapter(activeChapter.id, e.target.value)}
+                placeholder={`Start writing ${activeChapter.title}...`}
+                style={{
+                  width: '100%',
+                  minHeight: '500px',
+                  border: 'none',
+                  outline: 'none',
+                  fontSize: '16px',
+                  lineHeight: '1.8',
+                  color: '#111827',
+                  padding: '24px',
+                  fontFamily: 'inherit',
+                  boxSizing: 'border-box',
+                  resize: 'vertical'
+                }}
+              />
+            ) : (
+              <div style={{
+                padding: '24px',
                 fontSize: '16px',
                 lineHeight: '1.8',
                 color: '#111827',
-                padding: '24px',
-                fontFamily: 'inherit',
-                boxSizing: 'border-box',
-                resize: 'vertical'
-              }}
-            />
-          ) : (
-            <div style={{
-              padding: '24px',
-              fontSize: '16px',
-              lineHeight: '1.8',
-              color: '#111827',
-              minHeight: '500px',
-              whiteSpace: 'pre-wrap',
-              wordWrap: 'break-word'
-            }}>
-              {activeChapter.content || (
-                <span style={{ color: '#9ca3af', fontStyle: 'italic' }}>
-                  No content yet. Click the edit button to start writing.
-                </span>
-              )}
-            </div>
-          )}
+                minHeight: '500px',
+                whiteSpace: 'pre-wrap',
+                wordWrap: 'break-word'
+              }}>
+                {activeChapter.content || (
+                  <span style={{ color: '#9ca3af', fontStyle: 'italic' }}>
+                    No content yet. Click the edit button to start writing.
+                  </span>
+                )}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     );
@@ -96,19 +98,20 @@ export default function ContentArea({
   // Edit Template View
   if (activeView === 'edit-template') {
     return (
-      <div className="content-area" style={{ overflowY: 'auto' }}>
-        {/* Header */}
-        <div style={{ marginBottom: '40px', width: '100%' }}>
-          <h1 style={{ fontSize: '32px', fontWeight: '700', color: '#111827', margin: '0 0 8px 0', letterSpacing: '-0.5px' }}>
-            Template Editor
-          </h1>
-          <p style={{ fontSize: '16px', color: '#6b7280', margin: 0 }}>
-            Modify the structure of your current project.
-          </p>
-        </div>
+      <div className="content-area">
+        <div className="content-layout-wrapper">
+          {/* Header */}
+          <div style={{ marginBottom: '40px', width: '100%' }}>
+            <h1 style={{ fontSize: '32px', fontWeight: '700', color: '#111827', margin: '0 0 8px 0', letterSpacing: '-0.5px' }}>
+              Template Editor
+            </h1>
+            <p style={{ fontSize: '16px', color: '#6b7280', margin: 0 }}>
+              Modify the structure of your current project.
+            </p>
+          </div>
 
-        {/* Template Chapters */}
-        <div style={{ maxWidth: '800px', width: '100%' }}>
+          {/* Template Chapters */}
+          <div style={{ maxWidth: '800px', width: '100%' }}>
           {projectData.template.structure.map((chapter) => (
             <div key={chapter.chapter} style={{ 
               background: 'white', 
@@ -189,15 +192,16 @@ export default function ContentArea({
           >Save Changes</button>
         </div>
 
-        <EditTemplateModal
-          chapter={editingTemplate}
-          isOpen={!!editingTemplate}
-          onClose={() => setEditingTemplate(null)}
-          onSave={() => {
-            // Handle save logic here
-            console.log('Template changes saved');
-          }}
-        />
+          <EditTemplateModal
+            chapter={editingTemplate}
+            isOpen={!!editingTemplate}
+            onClose={() => setEditingTemplate(null)}
+            onSave={() => {
+              // Handle save logic here
+              console.log('Template changes saved');
+            }}
+          />
+        </div>
       </div>
     );
   }
@@ -213,70 +217,74 @@ export default function ContentArea({
     ];
 
     return (
-      <div className="content-area" style={{ overflowY: 'auto' }}>
-        <div style={{ marginBottom: '40px', width: '100%' }}>
-          <h1 style={{ fontSize: '32px', fontWeight: '700', color: '#111827', margin: '0 0 8px 0', letterSpacing: '-0.5px' }}>Project History</h1>
-          <p style={{ fontSize: '16px', color: '#6b7280', margin: 0 }}>Track your chapter generation and token usage.</p>
-        </div>
+      <div className="content-area">
+        <div className="content-layout-wrapper">
+          <div style={{ marginBottom: '40px', width: '100%' }}>
+            <h1 style={{ fontSize: '32px', fontWeight: '700', color: '#111827', margin: '0 0 8px 0', letterSpacing: '-0.5px' }}>Project History</h1>
+            <p style={{ fontSize: '16px', color: '#6b7280', margin: 0 }}>Track your chapter generation and token usage.</p>
+          </div>
 
-        {/* Usage Overview - Horizontal Cards */}
-        <div style={{ display: 'flex', gap: '20px', marginBottom: '40px', overflowX: 'auto', paddingBottom: '12px' }}>
-          <div style={{ background: 'white', padding: '24px', borderRadius: '16px', border: '1px solid #e5e7eb', boxShadow: '0 1px 2px rgba(0,0,0,0.05)', minWidth: '220px', flex: '0 0 auto' }}>
-            <span style={{ fontSize: '14px', color: '#6b7280', display: 'block', marginBottom: '8px' }}>Total Chapters Generated</span>
-            <span style={{ fontSize: '32px', fontWeight: '700', color: '#111827' }}>24</span>
+          {/* Usage Overview - Responsive Grid */}
+          <div className="history-stats-grid">
+            <div className="stat-card">
+              <span className="stat-label">Total Chapters Generated</span>
+              <span className="stat-value">24</span>
+            </div>
+            <div className="stat-card">
+              <span className="stat-label">Images Added</span>
+              <span className="stat-value">18</span>
+            </div>
+            <div className="stat-card">
+              <span className="stat-label">Tokens Spent</span>
+              <span className="stat-value">22,000</span>
+            </div>
+            <div className="stat-card">
+              <span className="stat-label">Tokens Remaining</span>
+              <span className="stat-value">478k</span>
+            </div>
           </div>
-          <div style={{ background: 'white', padding: '24px', borderRadius: '16px', border: '1px solid #e5e7eb', boxShadow: '0 1px 2px rgba(0,0,0,0.05)', minWidth: '220px', flex: '0 0 auto' }}>
-            <span style={{ fontSize: '14px', color: '#6b7280', display: 'block', marginBottom: '8px' }}>Images Added</span>
-            <span style={{ fontSize: '32px', fontWeight: '700', color: '#111827' }}>18</span>
-          </div>
-          <div style={{ background: 'white', padding: '24px', borderRadius: '16px', border: '1px solid #e5e7eb', boxShadow: '0 1px 2px rgba(0,0,0,0.05)', minWidth: '220px', flex: '0 0 auto' }}>
-            <span style={{ fontSize: '14px', color: '#6b7280', display: 'block', marginBottom: '8px' }}>Tokens Spent</span>
-            <span style={{ fontSize: '32px', fontWeight: '700', color: '#111827' }}>22,000</span>
-          </div>
-          <div style={{ background: 'white', padding: '24px', borderRadius: '16px', border: '1px solid #e5e7eb', boxShadow: '0 1px 2px rgba(0,0,0,0.05)', minWidth: '220px', flex: '0 0 auto' }}>
-            <span style={{ fontSize: '14px', color: '#6b7280', display: 'block', marginBottom: '8px' }}>Tokens Remaining</span>
-            <span style={{ fontSize: '32px', fontWeight: '700', color: '#111827' }}>478k</span>
-          </div>
-        </div>
 
-        {/* Activity Log */}
-        <div style={{ background: 'white', borderRadius: '16px', border: '1px solid #e5e7eb', overflow: 'hidden', width: '100%' }}>
-          <div style={{ padding: '20px 24px', borderBottom: '1px solid #e5e7eb' }}>
-            <h3 style={{ margin: 0, fontSize: '16px', fontWeight: '600' }}>Recent Chapter Activities</h3>
+          {/* Activity Log */}
+          <div style={{ background: 'white', borderRadius: '16px', border: '1px solid #e5e7eb', overflow: 'hidden', width: '100%' }}>
+            <div style={{ padding: '20px 24px', borderBottom: '1px solid #e5e7eb' }}>
+              <h3 style={{ margin: 0, fontSize: '16px', fontWeight: '600' }}>Recent Chapter Activities</h3>
+            </div>
+            <div style={{ overflowX: 'auto' }}>
+              <table style={{ width: '100%', minWidth: '600px', borderCollapse: 'collapse', fontSize: '14px' }}>
+                <thead>
+                  <tr style={{ background: '#f9fafb', textAlign: 'left' }}>
+                    <th style={{ padding: '16px 24px', color: '#6b7280', fontWeight: '600' }}>Chapter</th>
+                    <th style={{ padding: '16px 24px', color: '#6b7280', fontWeight: '600' }}>Last Action</th>
+                    <th style={{ padding: '16px 24px', color: '#6b7280', fontWeight: '600' }}>Date</th>
+                    <th style={{ padding: '16px 24px', color: '#6b7280', fontWeight: '600' }}>Tokens Used</th>
+                    <th style={{ padding: '16px 24px', color: '#6b7280', fontWeight: '600' }}>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {historyData.map((item, index) => (
+                    <tr key={item.id} style={{ borderBottom: index < historyData.length - 1 ? '1px solid #e5e7eb' : 'none' }}>
+                      <td style={{ padding: '16px 24px', fontWeight: '500', color: '#111827' }}>{item.chapter}</td>
+                      <td style={{ padding: '16px 24px', color: '#4b5563' }}>{item.tool}</td>
+                      <td style={{ padding: '16px 24px', color: '#6b7280' }}>{item.date}</td>
+                      <td style={{ padding: '16px 24px', color: '#6b7280' }}>{item.tokens.toLocaleString()}</td>
+                      <td style={{ padding: '16px 24px' }}>
+                        <span style={{ 
+                          background: '#def7ec', 
+                          color: '#03543f', 
+                          padding: '4px 10px', 
+                          borderRadius: '100px', 
+                          fontSize: '12px', 
+                          fontWeight: '600' 
+                        }}>
+                          {item.status}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
-          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '14px' }}>
-            <thead>
-              <tr style={{ background: '#f9fafb', textAlign: 'left' }}>
-                <th style={{ padding: '16px 24px', color: '#6b7280', fontWeight: '600' }}>Chapter</th>
-                <th style={{ padding: '16px 24px', color: '#6b7280', fontWeight: '600' }}>Last Action</th>
-                <th style={{ padding: '16px 24px', color: '#6b7280', fontWeight: '600' }}>Date</th>
-                <th style={{ padding: '16px 24px', color: '#6b7280', fontWeight: '600' }}>Tokens Used</th>
-                <th style={{ padding: '16px 24px', color: '#6b7280', fontWeight: '600' }}>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {historyData.map((item, index) => (
-                <tr key={item.id} style={{ borderBottom: index < historyData.length - 1 ? '1px solid #e5e7eb' : 'none' }}>
-                  <td style={{ padding: '16px 24px', fontWeight: '500', color: '#111827' }}>{item.chapter}</td>
-                  <td style={{ padding: '16px 24px', color: '#4b5563' }}>{item.tool}</td>
-                  <td style={{ padding: '16px 24px', color: '#6b7280' }}>{item.date}</td>
-                  <td style={{ padding: '16px 24px', color: '#6b7280' }}>{item.tokens.toLocaleString()}</td>
-                  <td style={{ padding: '16px 24px' }}>
-                    <span style={{ 
-                      background: '#def7ec', 
-                      color: '#03543f', 
-                      padding: '4px 10px', 
-                      borderRadius: '100px', 
-                      fontSize: '12px', 
-                      fontWeight: '600' 
-                    }}>
-                      {item.status}
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
         </div>
       </div>
     );
@@ -284,18 +292,19 @@ export default function ContentArea({
 
   // Dashboard View (Default)
   return (
-    <div className="content-area" style={{ overflowY: 'auto' }}>
-      <div className="welcome-container">
-        <img 
-          src="/favicon.ico" 
-          alt="W3 Writelab Logo" 
-          className="welcome-logo" 
-          style={{ width: 80, height: 80, marginBottom: 24, display: 'block', margin: '0 auto 24px' }} 
-        />
-        <h1 className="welcome-title">Welcome to W3 Writelab</h1>
-        <p className="welcome-subtitle">Your AI-Powered Academic Writing Assistant</p>
-        
-        <div className="quick-actions-grid">
+    <div className="content-area">
+      <div className="content-layout-wrapper">
+        <div className="welcome-container">
+          <img 
+            src="/favicon.ico" 
+            alt="W3 Writelab Logo" 
+            className="welcome-logo" 
+            style={{ width: 80, height: 80, marginBottom: 24, display: 'block', margin: '0 auto 24px' }} 
+          />
+          <h1 className="welcome-title">Welcome to W3 Writelab</h1>
+          <p className="welcome-subtitle">Your AI-Powered Academic Writing Assistant</p>
+          
+          <div className="quick-actions-grid">
           <ActionCard 
             icon={<Icons.Search />} 
             title="Citation & References" 
@@ -368,6 +377,7 @@ export default function ContentArea({
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }
