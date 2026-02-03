@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import EditTemplateModal from '../modals/EditTemplateModal';
 
 // Simple SVG Icons
 const Icons = {
@@ -25,6 +26,7 @@ export default function ContentArea({
   onUpdateChapter 
 }) {
   const [editingChapterId, setEditingChapterId] = useState(null);
+  const [editingTemplate, setEditingTemplate] = useState(null);
 
   // Determine if we are viewing a specific chapter
   const activeChapter = activeView.startsWith('chapter-') 
@@ -94,32 +96,69 @@ export default function ContentArea({
   // Edit Template View
   if (activeView === 'edit-template') {
     return (
-      <div className="content-area">
-        <div className="content-header">
-          <h1>Template Editor</h1>
-          <p>Modify the structure of your current project.</p>
+      <div className="content-area" style={{ overflowY: 'auto' }}>
+        {/* Header */}
+        <div style={{ marginBottom: '40px', width: '100%' }}>
+          <h1 style={{ fontSize: '32px', fontWeight: '700', color: '#111827', margin: '0 0 8px 0', letterSpacing: '-0.5px' }}>
+            Template Editor
+          </h1>
+          <p style={{ fontSize: '16px', color: '#6b7280', margin: 0 }}>
+            Modify the structure of your current project.
+          </p>
         </div>
-        <div className="template-editor-container" style={{ maxWidth: '800px', width: '100%' }}>
+
+        {/* Template Chapters */}
+        <div style={{ maxWidth: '800px', width: '100%' }}>
           {projectData.template.structure.map((chapter) => (
-            <div key={chapter.chapter} className="template-chapter-edit" style={{ 
+            <div key={chapter.chapter} style={{ 
               background: 'white', 
-              padding: '20px', 
+              padding: '24px', 
               borderRadius: '12px', 
               marginBottom: '16px',
-              border: '1px solid #e5e7eb'
+              border: '1px solid #e5e7eb',
+              boxShadow: '0 1px 2px rgba(0,0,0,0.05)'
             }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
-                <h3 style={{ margin: 0, fontSize: '16px', fontWeight: 600 }}>Chapter {chapter.chapter}: {chapter.title}</h3>
-                <button style={{ color: '#3b82f6', background: 'none', border: 'none', cursor: 'pointer' }}>Edit</button>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
+                <div>
+                  <h3 style={{ margin: '0 0 4px 0', fontSize: '18px', fontWeight: '600', color: '#111827' }}>
+                    Chapter {chapter.chapter}: {chapter.title}
+                  </h3>
+                  <p style={{ margin: 0, fontSize: '13px', color: '#6b7280' }}>
+                    {chapter.sections.length} section{chapter.sections.length !== 1 ? 's' : ''}
+                  </p>
+                </div>
+                <button 
+                  onClick={() => setEditingTemplate(chapter)}
+                  style={{ 
+                    color: '#3b82f6', 
+                    background: 'none', 
+                    border: 'none', 
+                    cursor: 'pointer',
+                    fontSize: '14px',
+                    fontWeight: '600',
+                    padding: '6px 12px',
+                    borderRadius: '6px',
+                    transition: 'all 0.2s'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.target.style.background = '#eff6ff';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.background = 'none';
+                  }}
+                >
+                  Edit
+                </button>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 {chapter.sections.map((section, idx) => (
                   <div key={idx} style={{ 
-                    padding: '8px 12px', 
+                    padding: '10px 12px', 
                     background: '#f9fafb', 
                     borderRadius: '6px',
                     fontSize: '14px',
-                    color: '#4b5563'
+                    color: '#4b5563',
+                    borderLeft: '3px solid #e5e7eb'
                   }}>
                     {section}
                   </div>
@@ -127,17 +166,38 @@ export default function ContentArea({
               </div>
             </div>
           ))}
-          <button className="btn-save" style={{
+          <button style={{
             background: '#111827',
             color: 'white',
             padding: '12px 24px',
             borderRadius: '8px',
             border: 'none',
-            fontWeight: 500,
+            fontWeight: '600',
             cursor: 'pointer',
-            marginTop: '16px'
-          }}>Save Changes</button>
+            marginTop: '16px',
+            fontSize: '14px',
+            transition: 'all 0.2s'
+          }}
+          onMouseEnter={(e) => {
+            e.target.style.background = '#1f2937';
+            e.target.style.transform = 'translateY(-1px)';
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.background = '#111827';
+            e.target.style.transform = 'translateY(0)';
+          }}
+          >Save Changes</button>
         </div>
+
+        <EditTemplateModal
+          chapter={editingTemplate}
+          isOpen={!!editingTemplate}
+          onClose={() => setEditingTemplate(null)}
+          onSave={() => {
+            // Handle save logic here
+            console.log('Template changes saved');
+          }}
+        />
       </div>
     );
   }
